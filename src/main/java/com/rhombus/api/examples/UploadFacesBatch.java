@@ -15,9 +15,8 @@ import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonP
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.ws.rs.client.ClientBuilder;
+import java.util.*;
 import java.util.ArrayList;
-import java.util.List;
-
 import java.sql.Timestamp;
 
 //This script uploads a batch of faces for facial recognition preprocessing
@@ -65,7 +64,7 @@ class UploadFacesBatch
         String addr = commandLine.getOptionValue("addr");
         String apikey = commandLine.getOptionValue("apikey");
         _initialize(apikey);
-        uploadFaces(addr,apiKey);
+        uploadFaces(addr,apikey);
         checkUploadStatus(timeout,includeTime);
     }
 
@@ -97,14 +96,17 @@ class UploadFacesBatch
 
     private static void uploadFaces(String apikey) throws Exception
     {
-        ContentDisposition contentDisposition = new ContentDisposition();
-        contentDisposition.setType("Attachment");
+        
+
+        MultiPart multiPart = new MultiPart();
+        List<BodyPart> bodyParts = new ArrayList<BodyPart>();
+        multiPart.setBodyParts(bodyParts);
 
         List<Header> defaultHeaders = new ArrayList<>();
         defaultHeaders.add(new BasicHeader("x-auth-scheme", "api-token"));
         defaultHeaders.add(new BasicHeader("x-auth-apikey", apikey));
 
-        _uploadWebService.uploadFaces("",null,"","","","","","","","");
+        _uploadWebService.uploadFaces(null,null,null,null,null,null,null,null,null,null);
     }
 
     private static FaceGetUploadedFacesWSResponse getUploadedFaces() throws Exception
